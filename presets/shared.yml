@@ -64,12 +64,12 @@ maxNameSize: 64
 maxChildNamespaces: 256
 maxNamespaceDepth: 3
 batchVerificationRandomSource:
-symbolServerImage: symbolplatform/symbol-server:gcc-1.0.3.6
-symbolRestImage: symbolplatform/symbol-rest:2.4.3
+symbolServerImage: symbolplatform/symbol-server:gcc-1.0.3.7
+symbolRestImage: symbolplatform/symbol-rest:2.4.4
 symbolExplorerImage: symbolplatform/symbol-explorer:1.1.1-alpha-202110290945
 symbolFaucetImage: symbolplatform/symbol-faucet:1.0.1-alpha-202110131930
-mongoImage: mongo:5.0.15
-httpsPortalImage: steveltn/https-portal:1.23
+mongoImage: mongo:6.0.14
+httpsPortalImage: steveltn/https-portal:1.23.1
 mongoComposeRunParam: --wiredTigerCacheSizeGB 2
 logLevel: 'Info'
 # brokerLogLevel: 'Info'
@@ -87,6 +87,10 @@ enableRevoteOnBoot: true
 totalVotingBalanceCalculationFix: 0
 treasuryReissuance: 0
 strictAggregateTransactionHash: 0
+skipSecretLockUniquenessChecks:
+skipSecretLockExpirations:
+forceSecretLockExpirations:
+
 caCertificateExpirationInDays: 7300 # 20 years
 nodeCertificateExpirationInDays: 375 # 1.02 years
 certificateExpirationWarningInDays: 30 # certificates are allowed to be renewed 30 before expiring
@@ -198,11 +202,14 @@ minTransactionFailuresPercentForBan: 10
 #Rocksdb
 enableStatistics: false
 maxOpenFiles: 0
+maxWriteBatchSize: 5MB
+maxLogFiles: 10
 maxBackgroundThreads: 0
 maxSubcompactionThreads: 0
 blockCacheSize: 0MB
 memtableMemoryBudget: 0MB
-maxWriteBatchSize: 5MB
+maxLogFileSize: 100MB
+
 
 #Rest
 throttlingBurst: 80

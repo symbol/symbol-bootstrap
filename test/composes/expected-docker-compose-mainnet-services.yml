@@ -2,7 +2,7 @@ version: '2.4'
 services:
     https-proxy:
         container_name: https-proxy
-        image: steveltn/https-portal:1.23
+        image: steveltn/https-portal:1.23.1
         stop_signal: SIGINT
         ports:
             - '80:80'

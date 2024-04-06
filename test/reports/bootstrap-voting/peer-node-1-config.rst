@@ -284,6 +284,9 @@ config-network.properties
     totalVotingBalanceCalculationFix; 0; uint32_t; Height of fork to fix TotalVotingBalance calculation.
     treasuryReissuance; 0; ;
     strictAggregateTransactionHash; 0; ;
+    skipSecretLockUniquenessChecks; ; ;
+    skipSecretLockExpirations; ; ;
+    forceSecretLockExpirations; ; ;
 
 config-node.properties
 ======================
@@ -340,6 +343,8 @@ config-node.properties
     blockCacheSize; 0MB
     memtableMemoryBudget; 0MB
     maxWriteBatchSize; 5MB
+    maxLogFiles; 10
+    maxLogFileSize; 100MB
     **localnode**; ; ;
     host; peer-node-1; string; Node host (leave empty to auto-detect IP).
     friendlyName; my-peer-node-1; string; Node friendly name (leave empty to use address).

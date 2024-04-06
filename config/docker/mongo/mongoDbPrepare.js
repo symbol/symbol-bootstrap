@@ -78,7 +78,7 @@
         'RestrictionMosaic',
     ];
     pluginNames.forEach((pluginName) => {
-        const scriptPath = `${pwd()}/scripts/mongo${pluginName}DbPrepare.js`;
+        const scriptPath = `${process.cwd()}/scripts/mongo${pluginName}DbPrepare.js`;
         print(`Loading ${pluginName} from ${scriptPath}`);
         load(scriptPath);
     });

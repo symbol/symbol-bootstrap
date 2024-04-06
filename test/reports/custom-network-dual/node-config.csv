@@ -680,6 +680,9 @@ fork_heights
 totalVotingBalanceCalculationFix; 0; uint32_t; Height of fork to fix TotalVotingBalance calculation.
 treasuryReissuance; 0; ;
 strictAggregateTransactionHash; 0; ;
+skipSecretLockUniquenessChecks; ; ;
+skipSecretLockExpirations; ; ;
+forceSecretLockExpirations; ; ;
 
 
 config-node.properties
@@ -733,6 +736,8 @@ maxSubcompactionThreads; 0
 blockCacheSize; 0MB
 memtableMemoryBudget; 0MB
 maxWriteBatchSize; 5MB
+maxLogFiles; 10
+maxLogFileSize; 100MB
 
 localnode
 host; ; string; Node host (leave empty to auto-detect IP).

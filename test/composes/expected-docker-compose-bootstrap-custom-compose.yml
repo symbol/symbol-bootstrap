@@ -5,7 +5,7 @@ services:
         environment:
             MONGO_INITDB_DATABASE: catapult
         container_name: db-0
-        image: 'mongo:5.0.15'
+        image: 'mongo:6.0.14'
         command: mongod --dbpath=/dbdata --bind_ip=db-0 --wiredTigerCacheSizeGB 2
         stop_signal: SIGINT
         working_dir: /docker-entrypoint-initdb.d
@@ -23,7 +23,7 @@ services:
     peer-node-0:
         user: '1000:1000'
         container_name: peer-node-0
-        image: 'symbolplatform/symbol-server:gcc-1.0.3.6'
+        image: 'symbolplatform/symbol-server:gcc-1.0.3.7'
         command: /bin/bash /symbol-commands/start.sh /usr/catapult ./data server broker peer-node-0 NORMAL false
         stop_signal: SIGINT
         stop_grace_period: 300s
@@ -48,7 +48,7 @@ services:
     peer-node-1:
         user: '1000:1000'
         container_name: peer-node-1
-        image: 'symbolplatform/symbol-server:gcc-1.0.3.6'
+        image: 'symbolplatform/symbol-server:gcc-1.0.3.7'
         command: /bin/bash /symbol-commands/start.sh /usr/catapult ./data server broker peer-node-1 NORMAL false
         stop_signal: SIGINT
         stop_grace_period: 300s
@@ -73,7 +73,7 @@ services:
     api-node-0:
         user: '1000:1000'
         container_name: api-node-0
-        image: 'symbolplatform/symbol-server:gcc-1.0.3.6'
+        image: 'symbolplatform/symbol-server:gcc-1.0.3.7'
         command: /bin/bash /symbol-commands/start.sh /usr/catapult ./data server broker api-node-0 NORMAL true
         stop_signal: SIGINT
         stop_grace_period: 300s
@@ -93,7 +93,7 @@ services:
     api-node-broker-0:
         user: '1000:1000'
         container_name: api-node-broker-0
-        image: 'symbolplatform/symbol-server:gcc-1.0.3.6'
+        image: 'symbolplatform/symbol-server:gcc-1.0.3.7'
         working_dir: /symbol-workdir
         command: /bin/bash /symbol-commands/start.sh /usr/catapult ./data broker server api-node-broker-0 NORMAL
         ports:
@@ -111,7 +111,7 @@ services:
         user: '1000:1000'
         environment:
           npm_config_cache: /symbol-workdir
-        image: 'symbolplatform/symbol-rest:2.4.3'
+        image: 'symbolplatform/symbol-rest:2.4.4'
         command: npm start --prefix /app /symbol-workdir/rest.json
         stop_signal: SIGINT
         working_dir: /symbol-workdir
