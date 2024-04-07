@@ -236,6 +236,8 @@ restSSLKeyFileName: 'restSSL.key'
 restSSLCertificateFileName: 'restSSL.crt'
 restNodeMetadata:
   _info: "Node metadata"
+cacheTtl: 300
+sizeLimit: 10000000
 statisticsServicePeerFilter: ''
 statisticsServicePeerLimit: 50
 statisticsServiceRestFilter: suggested
