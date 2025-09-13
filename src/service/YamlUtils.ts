@@ -32,7 +32,14 @@ export class YamlUtils {
     }
 
     public static async writeYaml(path: string, object: unknown, password: Password): Promise<void> {
-        const yamlString = this.toYaml(password ? CryptoUtils.encrypt(object, Utils.validatePassword(password)) : object);
+        // Add a lightweight, non-encrypted metadata flag to indicate current encryption version
+        let objectToWrite: any = object;
+        if (password) {
+            const validated = Utils.validatePassword(password);
+            objectToWrite = { ...(object as any), __encryptionVersion: '2' };
+            objectToWrite = CryptoUtils.encrypt(objectToWrite, validated);
+        }
+        const yamlString = this.toYaml(objectToWrite);
         await this.writeTextFile(path, yamlString);
     }
 
@@ -83,13 +90,16 @@ export class YamlUtils {
         password: Password,
     ): { data: any; hasLegacyUpgrade: boolean; filePath: string } {
         const object = this.fromYaml(this.loadFileAsText(fileLocation));
+        const hasVersionMeta = !!(object && (object as any).__encryptionVersion === '2');
         if (password) {
             Utils.validatePassword(password);
             try {
                 const result = CryptoUtils.decryptWithUpgradeInfo(object, password);
+                // If metadata is present indicating current encryption, do not treat as legacy even if both decrypt paths succeed
+                const hasLegacyUpgrade = hasVersionMeta ? false : result.hasLegacyUpgrade || CryptoUtils.encryptedCount(object) > 0;
                 return {
                     data: result.data,
-                    hasLegacyUpgrade: result.hasLegacyUpgrade,
+                    hasLegacyUpgrade,
                     filePath: fileLocation,
                 };
             } catch (e) {
