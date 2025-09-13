@@ -16,6 +16,7 @@
 
 import { expect } from '@oclif/test';
 import { deepStrictEqual } from 'assert';
+import { execSync } from 'child_process';
 import { promises as fsPromises, readFileSync } from 'fs';
 import 'mocha';
 import { join } from 'path';
@@ -89,6 +90,11 @@ describe('CertificateService', () => {
             });
     }
 
+    async function verifyCertX509v3Extensions(certFileName: string) {
+        const opensslOut = execSync(`openssl x509 -in ${join(target, certFileName)} -text -noout`).toString();
+        expect(opensslOut.includes('X509v3 extensions')).eq(true);
+    }
+
     it('createCertificates', async () => {
         fileSystemService.deleteFolder(target);
 
@@ -105,6 +111,8 @@ describe('CertificateService', () => {
         };
         expect(expectedMetadata).deep.eq(YamlUtils.loadYaml(join(target, 'metadata.yml'), false));
         await verifyCertFolder();
+        await verifyCertX509v3Extensions('ca.cert.pem');
+        await verifyCertX509v3Extensions('node.crt.pem');
     });
 
     it('createCertificates expiration warnings', async () => {

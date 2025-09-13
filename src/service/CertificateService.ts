@@ -230,7 +230,7 @@ export class CertificateService {
         const createCaCertificate = renew
             ? `openssl x509 -in ${CertificateService.CA_CERTIFICATE_FILE_NAME}  -text -noout`
             : `# create CA cert and self-sign it
-    openssl req -config ca.cnf -keyform PEM -key ca.key.pem -new -x509 -days ${caCertificateExpirationInDays} -out ${CertificateService.CA_CERTIFICATE_FILE_NAME}
+    openssl req -config ca.cnf -keyform PEM -key ca.key.pem -new -x509 -days ${caCertificateExpirationInDays} -out ${CertificateService.CA_CERTIFICATE_FILE_NAME} -extensions x509_v3_ca
     openssl x509 -in ${CertificateService.CA_CERTIFICATE_FILE_NAME}  -text -noout
     `;
         return `set -e
@@ -263,7 +263,7 @@ openssl req  -text -noout -verify -in node.csr.pem
 # CA side
 
 # sign cert for 375 days
-openssl ca -batch -config ca.cnf -days ${nodeCertificateExpirationInDays} -notext -in node.csr.pem -out ${CertificateService.NODE_CERTIFICATE_FILE_NAME}
+openssl ca -batch -config ca.cnf -days ${nodeCertificateExpirationInDays} -notext -in node.csr.pem -out ${CertificateService.NODE_CERTIFICATE_FILE_NAME} -extensions x509_v3_node
 openssl verify -CAfile ${CertificateService.CA_CERTIFICATE_FILE_NAME} ${CertificateService.NODE_CERTIFICATE_FILE_NAME}
 
 # finally create full crt

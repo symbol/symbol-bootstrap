@@ -17,6 +17,17 @@ commonName              = supplied
 [req]
 prompt = no
 distinguished_name = dn
+x509_extensions = x509_v3_ca
 
 [dn]
 CN = {{{name}}}-account
+
+[x509_v3_ca]
+basicConstraints = critical,CA:TRUE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+
+[x509_v3_node]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
