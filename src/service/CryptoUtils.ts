@@ -110,31 +110,20 @@ export class CryptoUtils {
         }
         if (this.isEncryptableKeyField(value, fieldName) && value.startsWith(CryptoUtils.ENCRYPT_PREFIX)) {
             const encryptedValue = value.substring(CryptoUtils.ENCRYPT_PREFIX.length);
+            // 1) Try current symbol-sdk decryption first (crypto-js >= 4.2.0 compatible)
             let decryptedValue: string | undefined;
-            // 1) If it looks like legacy payload, prefer legacy decryption first to positively detect upgrade scenario
-            if (CryptoUtils.isLegacyFormat(encryptedValue)) {
-                try {
-                    decryptedValue = CryptoUtils.decryptLegacy(encryptedValue, password);
-                    CryptoUtils._legacyUpgradeDetected = true;
-                } catch (e) {
-                    decryptedValue = undefined;
-                }
+            try {
+                decryptedValue = Crypto.decrypt(encryptedValue, password);
+            } catch (e) {
+                decryptedValue = undefined;
             }
-            // 2) If not legacy or legacy failed, try current symbol-sdk decryption (crypto-js >= 4.2.0 compatible)
+            // 2) Fallback to legacy decryption (crypto-js 4.1.1 equivalent: PBKDF2-SHA1 + AES-256-CBC)
             if (!decryptedValue) {
                 try {
-                    decryptedValue = Crypto.decrypt(encryptedValue, password);
-                } catch (e) {
-                    decryptedValue = undefined;
-                }
-            }
-            // 3) As a last resort, try legacy again if not already tried
-            if (!decryptedValue && !CryptoUtils._legacyUpgradeDetected) {
-                try {
                     decryptedValue = CryptoUtils.decryptLegacy(encryptedValue, password);
                     CryptoUtils._legacyUpgradeDetected = true;
                 } catch (e) {
-                    // ignore
+                    throw Error('Value could not be decrypted!');
                 }
             }
             if (!decryptedValue) {
@@ -204,24 +193,5 @@ export class CryptoUtils {
         let decrypted = decipher.update(ciphertextBase64, 'base64', 'utf8');
         decrypted += decipher.final('utf8');
         return decrypted;
-    }
-
-    /**
-     * Detects legacy encrypted payload format: 32 hex chars (salt) + 32 hex chars (iv) + base64 ciphertext
-     */
-    private static isLegacyFormat(data: string): boolean {
-        if (!data || data.length < 65) {
-            return false;
-        }
-        const saltHex = data.substring(0, 32);
-        const ivHex = data.substring(32, 64);
-        const ciphertextBase64 = data.substring(64);
-        const hexRegex = /^[0-9a-fA-F]+$/;
-        const b64Regex = /^[A-Za-z0-9+/=]+$/;
-        if (!hexRegex.test(saltHex) || !hexRegex.test(ivHex) || !b64Regex.test(ciphertextBase64)) {
-            return false;
-        }
-        // Additional lightweight validation: base64 length should be multiple of 4
-        return ciphertextBase64.length % 4 === 0;
     }
 }

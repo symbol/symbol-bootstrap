@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { copyFileSync, existsSync } from 'fs';
+import { existsSync, promises as fs } from 'fs';
 import * as _ from 'lodash';
 import { join } from 'path';
 import { Account, PublicAccount } from 'symbol-sdk';
@@ -306,15 +306,11 @@ export class ConfigLoader {
                 this.logger.warn(`Legacy encryption detected in ${generatedAddressLocation}. Upgrading to stronger encryption...`);
                 this.logger.info(`Creating backup of original file at ${backupLocation}`);
 
-                try {
-                    copyFileSync(generatedAddressLocation, backupLocation);
-                    this.logger.info(`Backup created successfully`);
-                } catch (e) {
-                    this.logger.error(`Failed to create backup for ${generatedAddressLocation}: ${e instanceof Error ? e.message : e}`);
-                }
-
-                // Proceed to upgrade the encryption in the background
-                YamlUtils.writeYaml(generatedAddressLocation, addresses, password)
+                fs.copyFile(generatedAddressLocation, backupLocation)
+                    .then(() => {
+                        this.logger.info(`Backup created successfully`);
+                        return YamlUtils.writeYaml(generatedAddressLocation, addresses, password);
+                    })
                     .then(() => {
                         this.logger.info(`Successfully upgraded encryption for ${generatedAddressLocation}`);
                         this.logger.info(`Original file backed up to ${backupLocation} (encrypted with legacy method)`);
