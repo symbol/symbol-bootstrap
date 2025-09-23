@@ -83,7 +83,7 @@ describe('VerifyService', () => {
     it('VerifyService verify current installation when too old', async () => {
         const expectedVersions = {
             node: '21.0.0',
-            docker: '27.4.0',
+            docker: '29.4.0',
             dockerCompose: '3.29.5',
         };
         const service = new VerifyService(logger, expectedVersions);

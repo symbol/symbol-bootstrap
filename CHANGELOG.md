@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## [1.1.12] - Sept-22-2025
+
+**Milestone**: Mainnet(1.0.3.9)
+
+| Package          | Version | Link                                                               |
+| ---------------- |---------| ------------------------------------------------------------------ |
+| Symbol Bootstrap | v1.1.12 | [symbol-bootstrap](https://www.npmjs.com/package/symbol-bootstrap) |
+
+Update the following packages:
+
+- [Catapult Client v1.0.3.9](https://github.com/symbol/symbol/releases/tag/client%2Fcatapult%2Fv1.0.3.9)
+- [Rest 2.5.1](https://github.com/symbol/symbol/releases/tag/rest%2Fv2.5.1)
+- MongoDB 7.0.23
+- https-portal 1.23.1
+
 ## [1.1.11] - Apr-6-2024
 
 **Milestone**: Mainnet(1.0.3.7)

@@ -37,6 +37,7 @@
     "restrictions",
     "transfer"
   ],
+  "routeExtensions": [],
   "db": {
     "url": "mongodb://db:27017/",
     "name": "catapult",

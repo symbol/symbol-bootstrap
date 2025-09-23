@@ -22,7 +22,7 @@ importanceGrouping: 180
 votingSetGrouping: 720
 votingKeyDesiredLifetime: 720
 votingKeyDesiredFutureLifetime: 120
-lastKnownNetworkEpoch: 1844
+lastKnownNetworkEpoch: 3298
 minVotingKeyLifetime: 28
 maxVotingKeyLifetime: 720
 stepDuration: 4m
@@ -45,6 +45,7 @@ minProofSize: 0
 syncTimeout: 5m
 maxChildNamespaces: 100
 nonVotingUnfinalizedBlocksDuration: 10m
+uniqueAggregateTransactionHash: 2'742'000
 treasuryReissuanceEpoch: 0
 treasuryReissuanceEpochIneligibleVoterAddresses: []
 votingUnfinalizedBlocksDuration: 0m
