@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import fetch from 'cross-fetch';
 import { lookup } from 'dns';
 import * as _ from 'lodash';
 import { firstValueFrom } from 'rxjs';
 import { ChainInfo, RepositoryFactory, RepositoryFactoryHttp, RoleType } from 'symbol-sdk';
-import { Configuration, NodeApi, NodeListFilter, RequestContext } from 'symbol-statistics-service-typescript-fetch-client';
 import { Logger } from '../logger';
 import { ConfigPreset, PeerInfo } from '../model';
 import { KnownError } from './KnownError';
+import { NodeWatchNodeInfo, NodeWatchService } from './NodeWatchService';
 import { Utils } from './Utils';
 
 export interface RepositoryInfo {
@@ -127,17 +126,20 @@ export class RemoteNodeService {
         }
         const presetData = this.presetData;
         const urls = [...(presetData.knownRestGateways || [])];
-        const statisticsServiceUrl = presetData.statisticsServiceUrl;
-        if (statisticsServiceUrl && !this.offline) {
-            const client = this.createNodeApiRestClient(statisticsServiceUrl);
+        const nodeWatchUrl = presetData.nodeWatchUrl;
+        if (nodeWatchUrl && !this.offline) {
             try {
-                const filter = presetData.statisticsServiceRestFilter as NodeListFilter;
-                const limit = presetData.statisticsServiceRestLimit;
-                const nodes = await client.getNodes(filter ? filter : undefined, limit);
-                urls.push(...nodes.map((n) => n.apiStatus?.restGatewayUrl).filter((url): url is string => !!url));
+                const limit = presetData.nodeWatchRestLimit;
+                const nodes = await this.getNodeWatchNodes(nodeWatchUrl, 'api', limit);
+                urls.push(
+                    ...nodes
+                        .filter((n) => n.isHealthy === true)
+                        .map((n) => n.endpoint)
+                        .filter((url): url is string => !!url),
+                );
             } catch (e) {
                 this.logger.warn(
-                    `There has been an error connecting to statistics ${statisticsServiceUrl}. Rest urls cannot be resolved! Error ${Utils.getMessage(
+                    `There has been an error connecting to node watch ${nodeWatchUrl}. Rest urls cannot be resolved! Error ${Utils.getMessage(
                         e,
                     )}`,
                 );
@@ -170,24 +172,23 @@ export class RemoteNodeService {
 
     public async getPeerInfos(): Promise<PeerInfo[]> {
         const presetData = this.presetData;
-        const statisticsServiceUrl = presetData.statisticsServiceUrl;
+        const nodeWatchUrl = presetData.nodeWatchUrl;
         const knownPeers = [...(presetData.knownPeers || [])];
-        if (statisticsServiceUrl && !this.offline) {
-            const client = this.createNodeApiRestClient(statisticsServiceUrl);
+        if (nodeWatchUrl && !this.offline) {
             try {
-                const filter = presetData.statisticsServicePeerFilter as NodeListFilter;
-                const limit = presetData.statisticsServicePeerLimit;
-                const nodes = await client.getNodes(filter ? filter : undefined, limit);
+                const limit = presetData.nodeWatchPeerLimit;
+                const nodes = await this.getNodeWatchNodes(nodeWatchUrl, 'peer', limit);
                 const peerInfos = nodes
+                    .filter((n) => n.isHealthy !== false)
                     .map((n): PeerInfo | undefined => {
-                        if (!n.peerStatus?.isAvailable || !n.publicKey || !n.port || !n.friendlyName || !n.roles) {
+                        if (!n.publicKey || !n.friendlyName || !n.roles || !n.host) {
                             return undefined;
                         }
                         return {
                             publicKey: n.publicKey,
                             endpoint: {
-                                host: n.host || '',
-                                port: n.port,
+                                host: n.host,
+                                port: n.peerPort,
                             },
                             metadata: {
                                 name: n.friendlyName,
@@ -199,7 +200,7 @@ export class RemoteNodeService {
                 knownPeers.push(...peerInfos);
             } catch (error) {
                 this.logger.warn(
-                    `There has been an error connecting to statistics ${statisticsServiceUrl}. Peers cannot be resolved! Error ${Utils.getMessage(
+                    `There has been an error connecting to node watch ${nodeWatchUrl}. Peers cannot be resolved! Error ${Utils.getMessage(
                         error,
                     )}`,
                 );
@@ -208,21 +209,9 @@ export class RemoteNodeService {
         return knownPeers;
     }
 
-    public createNodeApiRestClient(statisticsServiceUrl: string): NodeApi {
-        return new NodeApi(
-            new Configuration({
-                fetchApi: fetch as any,
-                basePath: statisticsServiceUrl,
-                middleware: [
-                    {
-                        pre: (context: RequestContext): Promise<void> => {
-                            this.logger.info(`Getting nodes information from ${context.url}`);
-                            return Promise.resolve();
-                        },
-                    },
-                ],
-            }),
-        );
+    public async getNodeWatchNodes(nodeWatchUrl: string, nodeType: 'api' | 'peer', limit: number): Promise<NodeWatchNodeInfo[]> {
+        this.logger.info(`Getting nodes information from ${nodeWatchUrl}`);
+        return new NodeWatchService(nodeWatchUrl).fetchNodesByType(nodeType, limit);
     }
 
     public async resolveRestUrlsForServices(): Promise<{ restNodes: string[]; defaultNode: string }> {

@@ -121,7 +121,7 @@ treasuryReissuanceEpochIneligibleVoterAddresses:
 votingUnfinalizedBlocksDuration: 0m
 timeSynchronizationMinImportance: 10000000000
 explorerUrl: https://symbol.fyi
-statisticsServiceUrl: https://symbol.services
+nodeWatchUrl: https://nodewatch.symbol.tools
 knownRestGateways: []
 knownPeers: []
 restUncirculatingAccountPublicKeys: >-
