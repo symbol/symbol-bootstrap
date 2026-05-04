@@ -423,11 +423,9 @@ export interface CommonConfigPreset extends NodeConfigPreset, GatewayConfigPrese
     useExperimentalNativeVotingKeyGeneration?: boolean;
     lastKnownNetworkEpoch: number;
     autoUpdateVotingKeys: boolean;
-    statisticsServiceUrl?: string;
-    statisticsServicePeerLimit: number;
-    statisticsServicePeerFilter?: string;
-    statisticsServiceRestLimit: number;
-    statisticsServiceRestFilter?: string;
+    nodeWatchUrl?: string;
+    nodeWatchPeerLimit: number;
+    nodeWatchRestLimit: number;
 
     // Nested Objects
     inflation?: Record<string, number>;
