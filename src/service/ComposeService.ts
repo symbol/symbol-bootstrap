@@ -136,6 +136,15 @@ export class ComposeService {
             if (servicePreset.ipv4_address) {
                 service.networks!.default.ipv4_address = servicePreset.ipv4_address;
             }
+
+            // Docker 29対応: nofileのみ追加
+            service.ulimits = _.merge({}, {
+                nofile: {
+                    soft: 65536,
+                    hard: 65536,
+                }
+            }, service.ulimits || {}, servicePreset.compose?.ulimits || {});
+
             return _.merge({}, service, servicePreset.compose);
         };
 
@@ -207,7 +216,7 @@ export class ComposeService {
                             stopGracePeriod: n.nodeStopGracePeriod || presetData.nodeStopGracePeriod,
                         },
                         {
-                            user: serverDebugMode === debugFlag ? undefined : user, // if debug on, run as root
+                            user: serverDebugMode === debugFlag ? undefined : user,
                             container_name: n.name,
                             image: presetData.symbolServerImage,
                             command: serverCommand,
@@ -234,7 +243,7 @@ export class ComposeService {
                                     stopGracePeriod: n.brokerStopGracePeriod || presetData.brokerStopGracePeriod,
                                 },
                                 {
-                                    user: brokerDebugMode === debugFlag ? undefined : user, // if debug on, run as root
+                                    user: brokerDebugMode === debugFlag ? undefined : user,
                                     container_name: n.brokerName,
                                     image: nodeService.image,
                                     working_dir: nodeWorkingDirectory,
@@ -251,7 +260,8 @@ export class ComposeService {
                     }
                 }),
         );
-        const restInternalPort = 3000; // Move to shared?
+
+        const restInternalPort = 3000;
         await Promise.all(
             (presetData.gateways || [])
                 .filter((d) => !d.excludeDockerService)
