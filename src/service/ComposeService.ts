@@ -261,7 +261,7 @@ export class ComposeService {
                 }),
         );
 
-        const restInternalPort = 3000;
+        const restInternalPort = 3000; // Move to shared?
         await Promise.all(
             (presetData.gateways || [])
                 .filter((d) => !d.excludeDockerService)
