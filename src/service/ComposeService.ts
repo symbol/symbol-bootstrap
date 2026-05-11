@@ -260,7 +260,6 @@ export class ComposeService {
                     }
                 }),
         );
-
         const restInternalPort = 3000; // Move to shared?
         await Promise.all(
             (presetData.gateways || [])
