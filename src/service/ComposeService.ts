@@ -243,7 +243,7 @@ export class ComposeService {
                                     stopGracePeriod: n.brokerStopGracePeriod || presetData.brokerStopGracePeriod,
                                 },
                                 {
-                                    user: brokerDebugMode === debugFlag ? undefined : user,
+                                    user: brokerDebugMode === debugFlag ? undefined : user, // if debug on, run as root
                                     container_name: n.brokerName,
                                     image: nodeService.image,
                                     working_dir: nodeWorkingDirectory,
