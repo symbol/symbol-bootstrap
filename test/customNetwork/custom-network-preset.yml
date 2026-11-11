@@ -39,8 +39,8 @@ rootNamespaceRentalFeePerBlock: 2
 childNamespaceRentalFee: 100000
 totalVotingBalanceCalculationFix: 0
 mosaicRentalFee: 500000
-throttlingBurst: 80
-throttlingRate: 60
+throttlingMax: 60
+throttlingTimeWindow: 1000
 fileDatabaseBatchSize: 100
 minProofSize: 0
 syncTimeout: 5m

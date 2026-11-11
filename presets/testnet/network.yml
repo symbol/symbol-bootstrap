@@ -22,7 +22,7 @@ importanceGrouping: 180
 votingSetGrouping: 720
 votingKeyDesiredLifetime: 720
 votingKeyDesiredFutureLifetime: 120
-lastKnownNetworkEpoch: 3298
+lastKnownNetworkEpoch: 5394
 minVotingKeyLifetime: 28
 maxVotingKeyLifetime: 720
 stepDuration: 4m
@@ -38,14 +38,15 @@ rootNamespaceRentalFeePerBlock: 2
 childNamespaceRentalFee: 100000
 totalVotingBalanceCalculationFix: 0
 mosaicRentalFee: 500000
-throttlingBurst: 80
-throttlingRate: 60
+throttlingMax: 60
+throttlingTimeWindow: 1000
 fileDatabaseBatchSize: 100
 minProofSize: 0
 syncTimeout: 5m
 maxChildNamespaces: 100
 nonVotingUnfinalizedBlocksDuration: 10m
 uniqueAggregateTransactionHash: 2'742'000
+strictVrfPublicKeyCheck: 3'888'648
 treasuryReissuanceEpoch: 0
 treasuryReissuanceEpochIneligibleVoterAddresses: []
 votingUnfinalizedBlocksDuration: 0m

@@ -70,9 +70,10 @@
     "allowOptionalAddress": true
   },
   "throttling": {
-    "burst": 80,
-    "rate": 60
+    "max": 60,
+    "timeWindow": 1000
   },
+  "trustProxy": false,
   "logging": {
     "console": {
       "formats": [

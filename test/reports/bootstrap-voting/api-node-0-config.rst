@@ -274,6 +274,7 @@ config-network.properties
     skipSecretLockExpirations; ; ;
     forceSecretLockExpirations; ; ;
     uniqueAggregateTransactionHash; 0; ;
+    strictVrfPublicKeyCheck; 1; ;
 
 config-node.properties
 ======================

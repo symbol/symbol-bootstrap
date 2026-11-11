@@ -17,9 +17,20 @@ The best way to validate your configuration is by inspecting the generated confi
 ### Custom Rest image and throttling
 
 ```yaml
-symbolRestImage: symbolplatform/symbol-rest:2.3.2
-throttlingBurst: 35
-throttlingRate: 1000
+symbolRestImage: symbolplatform/symbol-rest:2.5.2
+# at most 35 requests per client every 1000 ms
+throttlingMax: 35
+throttlingTimeWindow: 1000
+```
+
+### Rest behind a reverse proxy
+
+When Rest sits behind a reverse proxy (bootstrap's own https proxy, nginx, a cloud load balancer...) it must trust the
+`X-Forwarded-*` headers so that throttling and logging see the real client IP instead of the proxy IP. Bootstrap enables
+this automatically when an `httpsProxies` service is enabled; for an external proxy set it yourself:
+
+```yaml
+restTrustProxy: true
 ```
 
 ### Custom block duration, max namespace duration and number of nemesis accounts
