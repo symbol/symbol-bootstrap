@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## [1.1.13] - Nov-9-2026
+
+**Milestone**: Mainnet(1.0.3.10)
+
+| Package          | Version | Link                                                               |
+| ---------------- |---------| ------------------------------------------------------------------ |
+| Symbol Bootstrap | v1.1.13 | [symbol-bootstrap](https://www.npmjs.com/package/symbol-bootstrap) |
+
+Update the following packages:
+
+- [Catapult Client v1.0.3.10](https://github.com/symbol/symbol/releases/tag/client%2Fcatapult%2Fv1.0.3.10)
+- [Rest 2.5.2](https://github.com/symbol/symbol/releases/tag/rest%2Fv2.5.2)
+- MongoDB 7.0.45
+- https-portal 1.25.6
+
+Added `strictVrfPublicKeyCheck` fork height to `config-network.properties` (mainnet `5'952'255`, testnet `3'888'648`, private networks `1`).
+
+Rest 2.5.2 (fastify) configuration changes:
+
+- Throttling is now configured with `throttlingMax` and `throttlingTimeWindow` (milliseconds) instead of `throttlingBurst` and `throttlingRate`.
+  The old properties are ignored by Rest 2.5.2 and must be replaced in custom presets. Default: 60 requests per 1000 ms.
+- New `restTrustProxy` property (Rest `trustProxy`) for deployments running Rest behind a reverse proxy. It defaults to `true` when an
+  `httpsProxies` service is enabled and `false` otherwise.
+
+Fixed node certificate generation with the OpenSSL shipped in the 1.0.3.10 server image: the CA certificate now declares `basicConstraints CA:TRUE` explicitly instead of relying on OpenSSL defaults. Existing nodes are unaffected and certificate renewal keeps working with the previous CA certificate.
+
 ## [1.1.12] - Sept-22-2025
 
 **Milestone**: Mainnet(1.0.3.9)

@@ -17,6 +17,15 @@ commonName              = supplied
 [req]
 prompt = no
 distinguished_name = dn
+x509_extensions = v3_ca
 
 [dn]
 CN = {{{name}}}-account
+
+# Explicit CA extensions. Older OpenSSL builds emitted a v1 self-signed certificate here, which verifiers accept as a
+# CA by legacy rules. OpenSSL 3.5+ emits a v3 certificate and a v3 certificate without basicConstraints CA:TRUE is
+# rejected with "invalid CA certificate" when the node certificate is verified.
+[v3_ca]
+basicConstraints = critical, CA:TRUE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always, issuer

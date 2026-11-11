@@ -64,12 +64,12 @@ maxNameSize: 64
 maxChildNamespaces: 256
 maxNamespaceDepth: 3
 batchVerificationRandomSource:
-symbolServerImage: symbolplatform/symbol-server:gcc-1.0.3.9
-symbolRestImage: symbolplatform/symbol-rest:2.5.1
+symbolServerImage: symbolplatform/symbol-server:gcc-1.0.3.10
+symbolRestImage: symbolplatform/symbol-rest:2.5.2
 symbolExplorerImage: symbolplatform/symbol-explorer:1.1.1-alpha-202110290945
 symbolFaucetImage: symbolplatform/symbol-faucet:1.0.1-alpha-202110131930
-mongoImage: mongo:7.0.23
-httpsPortalImage: steveltn/https-portal:1.25.1
+mongoImage: mongo:7.0.45
+httpsPortalImage: steveltn/https-portal:1.25.6
 mongoComposeRunParam: --wiredTigerCacheSizeGB 2
 logLevel: 'Info'
 # brokerLogLevel: 'Info'
@@ -91,6 +91,7 @@ skipSecretLockUniquenessChecks:
 skipSecretLockExpirations:
 forceSecretLockExpirations:
 uniqueAggregateTransactionHash: 0
+strictVrfPublicKeyCheck: 1
 
 caCertificateExpirationInDays: 7300 # 20 years
 nodeCertificateExpirationInDays: 375 # 1.02 years
@@ -213,8 +214,8 @@ maxLogFileSize: 100MB
 
 
 #Rest
-throttlingBurst: 80
-throttlingRate: 60
+throttlingMax: 60
+throttlingTimeWindow: 1000
 restLoggingFilename: /symbol-workdir/logs/catapult-rest.log
 apiNodeConfigPath: /symbol-workdir/api-node-config
 subnet: '172.20.0.0/24'

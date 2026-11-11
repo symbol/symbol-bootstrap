@@ -623,7 +623,13 @@ export class ConfigService {
                     restDeploymentToolVersion: Constants.VERSION,
                     restDeploymentToolLastUpdatedDate: new Date().toISOString().slice(0, 10),
                 };
-                const templateContext = { ...generatedContext, ...presetData, ...gatewayPreset };
+                const httpsProxyEnabled = (presetData.httpsProxies || []).some((p) => !p.excludeDockerService);
+                const templateContext = {
+                    ...generatedContext,
+                    ...presetData,
+                    ...gatewayPreset,
+                    restTrustProxy: gatewayPreset.restTrustProxy ?? presetData.restTrustProxy ?? httpsProxyEnabled,
+                };
                 const name = templateContext.name || `rest-gateway-${index}`;
                 const moveTo = this.fileSystemService.getTargetGatewayFolder(this.params.target, false, name);
                 await HandlebarsUtils.generateConfiguration(templateContext, copyFrom, moveTo);

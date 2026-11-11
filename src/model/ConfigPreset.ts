@@ -298,7 +298,7 @@ export interface NodePreset extends DockerServicePreset, Partial<NodeConfigPrese
 }
 
 export interface GatewayConfigPreset {
-    throttlingBurst: number;
+    throttlingMax: number;
     connectionPoolSize: number;
     apiNodeBrokerPort: number;
     apiNodeConfigPath: string;
@@ -308,7 +308,9 @@ export interface GatewayConfigPreset {
     restLoggingFilename: string;
     apiNodeBrokerMonitorLoggingThrottle: number;
     apiNodePort: number;
-    throttlingRate: number;
+    throttlingTimeWindow: number;
+    /** Fastify trustProxy. Defaults to true when an https proxy service is enabled, false otherwise. */
+    restTrustProxy?: boolean;
     maxSubscriptions: number;
     apiNodeTimeout: number;
     baseRetryDelay: number;

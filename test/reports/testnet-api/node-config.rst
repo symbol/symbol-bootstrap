@@ -695,6 +695,7 @@ config-network.properties
     skipSecretLockExpirations; ; ;
     forceSecretLockExpirations; ; ;
     uniqueAggregateTransactionHash; 2'742'000; ;
+    strictVrfPublicKeyCheck; 3'888'648; ;
 
 config-node.properties
 ======================
