@@ -237,10 +237,8 @@ restSSLKeyFileName: 'restSSL.key'
 restSSLCertificateFileName: 'restSSL.crt'
 restNodeMetadata:
   _info: "Node metadata"
-statisticsServicePeerFilter: ''
-statisticsServicePeerLimit: 50
-statisticsServiceRestFilter: suggested
-statisticsServiceRestLimit: 10
+nodeWatchPeerLimit: 50
+nodeWatchRestLimit: 10
 
 treasuryReissuanceTransactionSignatures_has_items: false
 corruptAggregateTransactionHashes_has_items: false

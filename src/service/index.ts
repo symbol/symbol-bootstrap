@@ -21,6 +21,7 @@ export * from './LinkService';
 export * from './MigrationService';
 export * from './ModifyMultisigService';
 export * from './NemgenService';
+export * from './NodeWatchService';
 export * from './OSUtils';
 export * from './PortService';
 export * from './RemoteNodeService';
