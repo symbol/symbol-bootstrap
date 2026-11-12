@@ -37,6 +37,7 @@ export interface DockerComposeService {
     ports?: string[];
     depends_on?: string[];
     mem_limit?: string | number;
+    ulimits?: { nofile?: { soft: number; hard: number } };
     logging?: DockerComposeServiceLogging;
     // https://docs.docker.com/compose/compose-file/#service-configuration-reference deploy section
     networks?: {

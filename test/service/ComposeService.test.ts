@@ -336,6 +336,47 @@ ${YamlUtils.toYaml(dockerCompose)}
         await assertDockerCompose(params, 'expected-docker-compose-bootstrap-repeat.yml');
     });
 
+    it('overrides database, node and broker nofile limits through custom presets', async () => {
+        const target = 'target/tests/ComposeService-custom-nofile';
+        const params = {
+            ...ConfigService.defaultParams,
+            ...LinkService.defaultParams,
+            target,
+            password,
+            reset: false,
+            preset: Preset.testnet,
+            assembly: Assembly.dual,
+            customPresetObject: {
+                databases: [{ compose: { ulimits: { nofile: { soft: 8192, hard: 8192 } } } }],
+                nodes: [
+                    {
+                        compose: { ulimits: { nofile: { soft: 32768, hard: 32768 } } },
+                        brokerCompose: { ulimits: { nofile: { soft: 16384, hard: 16384 } } },
+                    },
+                ],
+            },
+        };
+        try {
+            const presetData = new ConfigLoader(logger).createPresetData({
+                ...params,
+                workingDir: Constants.defaultWorkingDir,
+            });
+            const dockerCompose = await new ComposeService(logger, params).run(presetData);
+
+            expect(dockerCompose.services.db.ulimits?.nofile).to.deep.equal({ soft: 8192, hard: 8192 });
+            expect(dockerCompose.services.node.ulimits?.nofile).to.deep.equal({ soft: 32768, hard: 32768 });
+            expect(dockerCompose.services.broker.ulimits?.nofile).to.deep.equal({ soft: 16384, hard: 16384 });
+            expect(dockerCompose.services['rest-gateway'].ulimits).to.be.undefined;
+
+            const generated = YamlUtils.loadYaml(join(target, 'docker', 'docker-compose.yml'), false) as DockerCompose;
+            expect(generated.services.db.ulimits?.nofile).to.deep.equal({ soft: 8192, hard: 8192 });
+            expect(generated.services.node.ulimits?.nofile).to.deep.equal({ soft: 32768, hard: 32768 });
+            expect(generated.services.broker.ulimits?.nofile).to.deep.equal({ soft: 16384, hard: 16384 });
+        } finally {
+            fileSystemService.deleteFolder(target);
+        }
+    });
+
     it('resolveDebugOptions', async () => {
         const service = new ComposeService(logger, ComposeService.defaultParams);
         expect(service.resolveDebugOptions(true, true)).deep.equals(ComposeService.DEBUG_SERVICE_PARAMS);

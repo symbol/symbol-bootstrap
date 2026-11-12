@@ -150,6 +150,7 @@ export class ComposeService {
                             user,
                             environment: { MONGO_INITDB_DATABASE: databaseName },
                             container_name: n.name,
+                            ulimits: { nofile: { soft: 65536, hard: 65536 } },
                             image: presetData.mongoImage,
                             command: `mongod --dbpath=/dbdata --bind_ip=${n.name} ${presetData.mongoComposeRunParam}`,
                             stop_signal: 'SIGINT',
@@ -209,6 +210,7 @@ export class ComposeService {
                         {
                             user: serverDebugMode === debugFlag ? undefined : user, // if debug on, run as root
                             container_name: n.name,
+                            ulimits: { nofile: { soft: 65536, hard: 65536 } },
                             image: presetData.symbolServerImage,
                             command: serverCommand,
                             stop_signal: 'SIGINT',
@@ -236,6 +238,7 @@ export class ComposeService {
                                 {
                                     user: brokerDebugMode === debugFlag ? undefined : user, // if debug on, run as root
                                     container_name: n.brokerName,
+                                    ulimits: { nofile: { soft: 65536, hard: 65536 } },
                                     image: nodeService.image,
                                     working_dir: nodeWorkingDirectory,
                                     command: brokerCommand,
