@@ -376,7 +376,6 @@ export class ComposeService {
         const validServices: DockerComposeService[] = services.filter((s) => s).map((s) => s as DockerComposeService);
         const servicesMap: Record<string, DockerComposeService> = _.keyBy(validServices, 'container_name');
         let dockerCompose: DockerCompose = {
-            version: presetData.dockerComposeVersion,
             services: servicesMap,
         };
 
