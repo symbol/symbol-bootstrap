@@ -225,7 +225,7 @@ gateways:
 
 **Create the configuration and docker compose service but exclude the service from running**
 
-This is done by passing [docker-compose up](https://docs.docker.com/compose/reference/up) params through bootstrap via `--args`.
+This is done by passing [docker compose up](https://docs.docker.com/compose/reference/up) params through bootstrap via `--args`.
 
 ```
 symbol-bootstrap start -r --args "--scale rest-gateway-0=0"

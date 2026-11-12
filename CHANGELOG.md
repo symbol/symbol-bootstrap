@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## [1.1.14] - Nov-12-2026
+
+**Milestone**: Mainnet(1.0.3.10)
+
+| Package          | Version | Link                                                               |
+| ---------------- |---------| ------------------------------------------------------------------ |
+| Symbol Bootstrap | v1.1.14 | [symbol-bootstrap](https://www.npmjs.com/package/symbol-bootstrap) |
+
+- Bootstrap now runs `docker compose` (Compose v2 plugin, 2.0.0+) instead of the legacy standalone `docker-compose` binary.
+
 ## [1.1.13] - Nov-9-2026
 
 **Milestone**: Mainnet(1.0.3.10)

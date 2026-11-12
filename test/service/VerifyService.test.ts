@@ -35,7 +35,7 @@ describe('VerifyService', () => {
     async function getCurrentVersions() {
         const appVersionService = new AppVersionService(logger, runtimeService);
         const currentDockerVersion = await appVersionService.loadVersionFromCommand('docker --version');
-        const currentDockerComposeVersion = await appVersionService.loadVersionFromCommand('docker-compose --version');
+        const currentDockerComposeVersion = await appVersionService.loadVersionFromCommand('docker compose version');
         expect(semver.valid(VerifyService.currentNodeJsVersion, AppVersionService.semverOptions));
         expect(semver.valid(currentDockerVersion, AppVersionService.semverOptions));
         expect(semver.valid(currentDockerComposeVersion, AppVersionService.semverOptions));
@@ -84,7 +84,7 @@ describe('VerifyService', () => {
         const expectedVersions = {
             node: '28.0.0',
             docker: '29.7.0',
-            dockerCompose: '3.29.5',
+            dockerCompose: '29.7.0',
         };
         const service = new VerifyService(logger, expectedVersions);
         const { currentDockerVersion, currentDockerComposeVersion } = await getCurrentVersions();

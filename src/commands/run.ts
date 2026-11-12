@@ -31,7 +31,7 @@ export default class Run extends Command {
         detached: flags.boolean({
             char: 'd',
             description:
-                'If provided, docker-compose will run with -d (--detached) and this command will wait unit server is running before returning',
+                'If provided, docker compose will run with -d (--detached) and this command will wait unit server is running before returning',
         }),
 
         healthCheck: flags.boolean({
@@ -49,12 +49,12 @@ export default class Run extends Command {
 
         args: flags.string({
             multiple: true,
-            description: 'Add extra arguments to the docker-compose up command. Check out https://docs.docker.com/compose/reference/up.',
+            description: 'Add extra arguments to the docker compose up command. Check out https://docs.docker.com/compose/reference/up.',
         }),
 
         build: flags.boolean({
             char: 'b',
-            description: 'If provided, docker-compose will run with -b (--build)',
+            description: 'If provided, docker compose will run with -b (--build)',
         }),
 
         timeout: flags.integer({
