@@ -19,7 +19,7 @@ services:
         privileged: true
     node:
         container_name: node
-        image: 'symbolplatform/symbol-server:gcc-1.0.3.10'
+        image: 'symbolplatform/symbol-server:gcc-1.0.3.11'
         command: /bin/bash /symbol-commands/start.sh /usr/catapult ./data server broker node DEBUG true
         stop_signal: SIGINT
         stop_grace_period: 300s
@@ -40,7 +40,7 @@ services:
         privileged: true
     broker:
         container_name: broker
-        image: 'symbolplatform/symbol-server:gcc-1.0.3.10'
+        image: 'symbolplatform/symbol-server:gcc-1.0.3.11'
         working_dir: /symbol-workdir
         command: /bin/bash /symbol-commands/start.sh /usr/catapult ./data broker server broker DEBUG
         stop_signal: SIGINT
