@@ -64,7 +64,7 @@ maxNameSize: 64
 maxChildNamespaces: 256
 maxNamespaceDepth: 3
 batchVerificationRandomSource:
-symbolServerImage: symbolplatform/symbol-server:gcc-1.0.3.10
+symbolServerImage: symbolplatform/symbol-server:gcc-1.0.3.11
 symbolRestImage: symbolplatform/symbol-rest:2.5.2
 symbolExplorerImage: symbolplatform/symbol-explorer:1.1.1-alpha-202110290945
 symbolFaucetImage: symbolplatform/symbol-faucet:1.0.1-alpha-202110131930
@@ -92,6 +92,7 @@ skipSecretLockExpirations:
 forceSecretLockExpirations:
 uniqueAggregateTransactionHash: 0
 strictVrfPublicKeyCheck: 1
+vrfGammaSubgroupCheck: 1
 
 caCertificateExpirationInDays: 7300 # 20 years
 nodeCertificateExpirationInDays: 375 # 1.02 years

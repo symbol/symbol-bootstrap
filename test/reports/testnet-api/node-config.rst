@@ -696,6 +696,7 @@ config-network.properties
     forceSecretLockExpirations; ; ;
     uniqueAggregateTransactionHash; 2'742'000; ;
     strictVrfPublicKeyCheck; 3'888'648; ;
+    vrfGammaSubgroupCheck; 3'904'683; ;
 
 config-node.properties
 ======================

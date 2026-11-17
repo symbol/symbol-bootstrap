@@ -45,6 +45,7 @@ skipSecretLockExpirations: 3'197'860, 3'197'866
 forceSecretLockExpirations: 3'197'458, 3'197'781
 uniqueAggregateTransactionHash: 4'759'100
 strictVrfPublicKeyCheck: 5'952'255
+vrfGammaSubgroupCheck: 5'967'570
 treasuryReissuance: 689761
 strictAggregateTransactionHash: 1'690'500
 mosaicRentalFee: 500000

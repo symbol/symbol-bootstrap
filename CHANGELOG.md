@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## [1.1.14] - Nov-17-2026
+
+**Milestone**: Mainnet(1.0.3.11)
+
+| Package          | Version | Link                                                               |
+| ---------------- |---------| ------------------------------------------------------------------ |
+| Symbol Bootstrap | v1.1.14 | [symbol-bootstrap](https://www.npmjs.com/package/symbol-bootstrap) |
+
+Update the following packages:
+
+- [Catapult Client v1.0.3.11](https://github.com/symbol/symbol/releases/tag/client%2Fcatapult%2Fv1.0.3.11)
+
+Added `vrfGammaSubgroupCheck` fork height to `config-network.properties` (mainnet `5'967'570`, testnet `3'904'683`).
+
 ## [1.1.13] - Nov-9-2026
 
 **Milestone**: Mainnet(1.0.3.10)

@@ -710,6 +710,7 @@ config-network.properties
     forceSecretLockExpirations; ; ;
     uniqueAggregateTransactionHash; 0; ;
     strictVrfPublicKeyCheck; 1; ;
+    vrfGammaSubgroupCheck; 1; ;
 
 config-node.properties
 ======================
