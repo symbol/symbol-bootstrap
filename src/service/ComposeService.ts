@@ -136,6 +136,15 @@ export class ComposeService {
             if (servicePreset.ipv4_address) {
                 service.networks!.default.ipv4_address = servicePreset.ipv4_address;
             }
+
+            // Docker 29対応: nofileのみ追加
+            service.ulimits = _.merge({}, {
+                nofile: {
+                    soft: 65536,
+                    hard: 65536,
+                }
+            }, service.ulimits || {}, servicePreset.compose?.ulimits || {});
+
             return _.merge({}, service, servicePreset.compose);
         };
 
